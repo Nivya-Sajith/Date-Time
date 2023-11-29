@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Timezone</title>
+    <link rel="icon" type="image/png" href="https://thumbs.dreamstime.com/b/time-world-vector-logo-design-template-time-planet-symbol-icon-globe-world-analog-clock-vector-icon-logo-design-252345532.jpg">
+
+     <!-- Bootstrap -->
+    
+
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+ 
+</head>
+<body>
+    
+    <div class="container bg-dark border border-2 rounded-4 p-3 mt-5 w-50 m-auto">
+        <h1 class="text-light text-center mt-5 mb-3">Current Date & Time</h1>
+
+        <div>
+           <label for="" class="text-light mb-3">Select Timezone :</label> 
+            <select class="form-select" aria-label="Default select example" id="ctime">
+                <option selected>Open this select menu</option>
+                
+              </select>
+              <button class="btn  border-dark bg-light m-4" type="submit" onclick="fetchDateTime()">Date & Time</button>
+
+              <p id="rslt" class="text-center text-light fs-3"></p>
+        </div>
+    </div>
+<script>
+
+   async function finddata()
+    {
+try{
+    let datafetch=await fetch('https://worldtimeapi.org/api/timezone')
+    let data= await datafetch.json();
+
+console.log(data);
+
+
+    let htmldata=data.map(x=>
+    
+        `<option value="${x}">${x}</option>`
+    
+)
+
+document.getElementById('ctime').innerHTML=htmldata
+}
+catch(err){
+console.log(err);
+}
+    }
+    finddata();
+
+    async function fetchDateTime()
+    {
+        let name= ctime.value;
+        console.log(name);
+        let timedate= await fetch(`https://worldtimeapi.org/api/timezone/${name}`);
+        let result= await timedate.json();
+        console.log(result);
+
+        document.getElementById('rslt').innerHTML=`Current Date & Time in<span class="fs-2 text-danger"> ${name} :</span> <span class="fs-2 text-primary">${ result.datetime}</span>`
+
+
+
+    }
+</script>
+</body>
+</html>
